@@ -1,0 +1,109 @@
+{
+  "name": "@iconix/search",
+  "version": "0.2.0",
+  "description": "A search box with typo-tolerant suggestions and results in six layouts (list, cards, grid, compact, media, table) for React, Vue and the web. Facets, sorting, recent searches, ⌘K palette and a CLI. Icons by @iconix/icons.",
+  "type": "module",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./engine": {
+      "types": "./index.d.ts",
+      "default": "./src/engine.js"
+    },
+    "./react": {
+      "types": "./react.d.ts",
+      "default": "./src/react.js"
+    },
+    "./vue": {
+      "types": "./vue.d.ts",
+      "default": "./src/vue.js"
+    },
+    "./element": "./src/element.js",
+    "./css": "./src/search.css",
+    "./search.css": "./src/search.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "bin",
+    "index.d.ts",
+    "react.d.ts",
+    "vue.d.ts",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css",
+    "./src/element.js"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "vue": ">=3.3"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "dev": "node server.mjs",
+    "test": "node --test --test-force-exit",
+    "test:coverage": "node --test --test-force-exit --experimental-test-coverage --test-coverage-exclude=test/** --test-coverage-exclude=node_modules/**",
+    "test:e2e": "node --test --test-concurrency=1 e2e/site.e2e.mjs",
+    "test:all": "npm test && npm run test:e2e",
+    "bench": "node bench/bench.mjs",
+    "size": "node bench/size.mjs"
+  },
+  "keywords": [
+    "search",
+    "autocomplete",
+    "typeahead",
+    "combobox",
+    "fuzzy-search",
+    "full-text-search",
+    "suggestions",
+    "facets",
+    "command-palette",
+    "react",
+    "vue",
+    "web-component",
+    "iconix"
+  ],
+  "author": "Bartek Figatowski",
+  "license": "MIT",
+  "homepage": "https://bartek-figat.github.io/iconix-search/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bartek-Figat/iconix-search.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Bartek-Figat/iconix-search/issues"
+  },
+  "dependencies": {
+    "@iconix/icons": "^1.1.1"
+  },
+  "bin": {
+    "iconix-search": "./bin/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "jsdom": "^31.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vue": "^3.5.45"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

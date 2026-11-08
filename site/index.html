@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iconix Search – search box with suggestions for React, Vue and the web</title>
+  <meta name="description" content="A search box with typo-tolerant suggestions and results in six layouts: list, cards, grid, compact, media and table. Facets, sorting, recent searches, a ⌘K palette and a CLI. Icons by @iconix/icons, MIT.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%2318181b'/%3E%3Cg fill='none' stroke='%23fafafa' stroke-width='2.2' stroke-linecap='round' transform='translate(5 5)'%3E%3Ccircle cx='10' cy='10' r='6.5'/%3E%3Cpath d='M15 15l5 5'/%3E%3C/g%3E%3C/svg%3E">
+  <script>
+    try { const t = localStorage.getItem('ixs-site-theme'); if (t) document.documentElement.dataset.theme = t; else if (matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.dataset.theme = 'dark'; } catch (e) {}
+  </script>
+  <!-- The search UI draws all of its icons with @iconix/icons -->
+  <script type="importmap">{ "imports": { "@iconix/icons/lite": "https://cdn.jsdelivr.net/npm/@iconix/icons@1.1.1/dist/lite.js" } }</script>
+  <link rel="stylesheet" href="../src/search.css">
+  <link rel="stylesheet" href="./site.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-in">
+      <a class="brand" href="#" aria-label="iconix search home">
+        <span class="brand-mark"><span data-i="search"></span></span>
+        <b>iconix</b><span class="brand-tag">search</span>
+      </a>
+      <nav class="nav">
+        <a href="#demo">Demo</a><a href="#layouts">Layouts</a><a href="#examples">Examples</a><a href="#features">Features</a><a href="#usage">Usage</a><a href="#cli">CLI</a><a href="#options">Options</a>
+      </nav>
+      <div class="top-r">
+        <div id="paletteSearch" class="top-palette"></div>
+        <a class="pill coffee" href="https://buymeacoffee.com/bartek1983d" target="_blank" rel="noopener"><span data-i="coffee"></span><span class="hide-sm">Buy me a coffee</span></a>
+        <a class="pill hide-sm" href="https://www.npmjs.com/package/@iconix/search" target="_blank" rel="noopener"><span data-i="box"></span>npm</a>
+        <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode"><span data-i="moon"></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero dots">
+      <div class="wrap center">
+        <p class="meta">@iconix/search · v0.2.0 · MIT</p>
+        <h1>Search that<br>knows what<br>you meant.</h1>
+        <p class="lead">A search box with suggestions as you type, typo tolerance, filters and results as a list, cards, a grid, a table and more. For React, Vue and the web. Every icon comes from <a class="ul" href="https://bartek-figat.github.io/iconix-site/">@iconix/icons</a>.</p>
+        <div class="hero-search" id="heroSearch"></div>
+        <p class="hero-hint">Try <button data-hero="wireles hedphones">wireles hedphones</button> <button data-hero="zolw">zolw</button> <button data-hero="usb-c">usb-c</button> or press <kbd>/</kbd></p>
+        <div class="cta">
+          <a class="btn btn-dark" href="#demo">Open the full demo <span data-i="arrow"></span></a>
+          <a class="btn" href="#usage">Install</a>
+        </div>
+        <div class="code-card install">
+          <div class="code-h"><span>Install</span><button class="copy" data-copy="npm i @iconix/search"><span data-i="copy"></span>Copy</button></div>
+          <pre><code><span class="tk-k">npm</span> i @iconix/search</code></pre>
+        </div>
+        <div class="stats">
+          <div><b>6</b><span>result layouts</span></div>
+          <div><b>&lt;2 ms</b><span>to search 1,000 items</span></div>
+          <div><b>&lt;10 ms</b><span>to search 10,000 items</span></div>
+          <div><b>1</b><span>dependency: @iconix/icons</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo" class="section">
+      <div class="wrap-wide">
+        <div class="sec-head">
+          <p class="eyebrow">Live demo</p>
+          <h2>Type badly. It still works.</h2>
+          <p class="sub">The real component on three data sets. Suggestions open as you type: press <kbd>↓</kbd> to move, <kbd>Tab</kbd> to accept the grey completion, <kbd>Enter</kbd> to search. Filter with the chips, sort, and switch the layout on the right.</p>
+        </div>
+        <div class="demo-top">
+          <div class="tabs" id="dataTabs" role="tablist" aria-label="Data set"></div>
+          <div class="try" id="tryRow"></div>
+        </div>
+        <div class="demo-frame">
+          <div id="demoSearch"></div>
+        </div>
+        <div class="custom">
+          <div class="ctl"><span class="ctl-l">Accent</span><div class="swatches" id="accentCtl"></div></div>
+          <div class="ctl"><span class="ctl-l">Density</span><div class="seg" data-opt="density"><button data-v="compact">Compact</button><button data-v="comfortable" class="on">Comfy</button><button data-v="spacious">Spacious</button></div></div>
+          <div class="ctl"><span class="ctl-l">Language</span><div class="seg" data-opt="locale"><button data-v="en" class="on">EN</button><button data-v="pl">PL</button></div></div>
+          <div class="ctl"><span class="ctl-l">Typos</span><div class="seg" data-opt="fuzzy"><button data-v="auto" class="on">Auto</button><button data-v="1">1</button><button data-v="0">Off</button></div></div>
+          <div class="ctl"><span class="ctl-l">Radius</span><input type="range" min="0" max="22" value="12" id="radiusCtl" aria-label="Corner radius"></div>
+          <label class="ctl sw"><input type="checkbox" id="instantCtl" checked><span></span>Instant results</label>
+          <label class="ctl sw"><input type="checkbox" id="facetsCtl" checked><span></span>Facets</label>
+          <label class="ctl sw"><input type="checkbox" id="groupCtl"><span></span>Group results</label>
+          <label class="ctl sw"><input type="checkbox" id="infiniteCtl"><span></span>Infinite scroll</label>
+          <label class="ctl sw"><input type="checkbox" id="urlCtl" checked><span></span>Sync URL</label>
+        </div>
+        <div class="demo-cols">
+          <div class="code-card snippet">
+            <div class="code-h"><span>Your config</span><div class="tabs mini" id="snipTabs"><button data-t="react" class="on">React</button><button data-t="vue">Vue</button><button data-t="js">Vanilla</button></div><button class="copy" id="snipCopy"><span data-i="copy"></span>Copy</button></div>
+            <pre><code id="snipCode"></code></pre>
+          </div>
+          <div class="code-card">
+            <div class="code-h"><span>Events</span><button class="copy" id="logClear"><span data-i="x"></span>Clear</button></div>
+            <div class="ev-log" id="evLog"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="layouts" class="section alt">
+      <div class="wrap-wide">
+        <div class="sec-head">
+          <p class="eyebrow">Layouts</p>
+          <h2>Six ways to show results</h2>
+          <p class="sub">The same results, rendered six ways. Pick one per page or let people switch. Each layout uses the fields you map: title, subtitle, description, image or icon, badge, tags and meta. Need something else? <code>renderItem</code> takes over the markup.</p>
+        </div>
+        <div class="lay-grid" id="layGrid"></div>
+      </div>
+    </section>
+
+    <section id="examples" class="section">
+      <div class="wrap-wide">
+        <div class="sec-head">
+          <p class="eyebrow">Examples</p>
+          <h2>Recipes for real apps</h2>
+          <p class="sub">Live examples you can copy: a ⌘K palette, a server-backed search, custom cards, the engine without UI and more.</p>
+        </div>
+        <div class="ex">
+          <nav class="ex-list" id="exList" aria-label="Examples"></nav>
+          <div class="ex-main">
+            <div class="ex-head"><h3 id="exTitle"></h3><p id="exDesc"></p></div>
+            <div class="ex-frame" id="exFrame"></div>
+            <div class="code-card"><div class="code-h"><span>Code</span><button class="copy" id="exCopy"><span data-i="copy"></span>Copy</button></div><pre><code id="exCode"></code></pre></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section alt">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Features</p>
+          <h2>Everything a search box needs</h2>
+          <p class="sub">The parts people usually wire up themselves come in the box.</p>
+        </div>
+        <div class="tools" id="featGrid"></div>
+      </div>
+    </section>
+
+    <section id="usage" class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Usage</p>
+          <h2>Use it in your stack</h2>
+          <p class="sub">Install the package once, import the stylesheet once, then pick the way that fits your project.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <div class="step-h"><span class="num">1</span><h3>Install</h3></div>
+            <div class="code-card">
+              <div class="code-h"><span>Terminal</span><button class="copy" data-copy="npm i @iconix/search"><span data-i="copy"></span>Copy</button></div>
+              <pre><code><span class="tk-k">npm</span> i @iconix/search
+<span class="tk-c"># or: pnpm add @iconix/search · yarn add @iconix/search · bun add @iconix/search</span></code></pre>
+            </div>
+            <p class="note">Windows PowerShell shows “running scripts is disabled”? Run <code>npm.cmd i @iconix/search</code> instead.</p>
+          </li>
+          <li>
+            <div class="step-h"><span class="num">2</span><h3>Render a search</h3></div>
+            <div class="tabs" id="usageTabs"></div>
+            <p class="tab-note" id="usageNote"></p>
+            <div class="code-card">
+              <div class="code-h"><span id="usageLang"></span><button class="copy" id="usageCopy"><span data-i="copy"></span>Copy</button></div>
+              <pre><code id="usageCode"></code></pre>
+            </div>
+          </li>
+          <li>
+            <div class="step-h"><span class="num">3</span><h3>React to choices</h3></div>
+            <p class="note big"><code>onSelect</code> fires when someone opens a result from the dropdown or the results panel, <code>onSearch</code> after every search with the hits, total and filters, and <code>onSubmit</code> when they press <kbd>Enter</kbd>. Items with a <code>url</code> field are real links.</p>
+            <div class="code-card">
+              <div class="code-h"><span>Events</span><button class="copy" id="eventsCopy"><span data-i="copy"></span>Copy</button></div>
+              <pre><code id="eventsCode"></code></pre>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="cli" class="section alt">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">CLI</p>
+          <h2>Search JSON from your terminal</h2>
+          <p class="sub">The package installs an <code>iconix-search</code> command for <code>.json</code> and <code>.ndjson</code> files. Test your ranking, check data in CI or grep a product feed with typos allowed. Add <code>--json</code> for machine-readable output.</p>
+        </div>
+        <div class="code-card">
+          <div class="code-h"><span>Terminal</span><button class="copy" data-copy="npx iconix-search --help"><span data-i="copy"></span>Copy</button></div>
+          <pre><code id="cliDemo"></code></pre>
+        </div>
+        <div class="table-wrap" style="margin-top:16px"><table class="opts" id="cliTable"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody></tbody></table></div>
+        <p class="note">Exit codes: <code>0</code> ok, <code>1</code> nothing found, <code>2</code> usage error.</p>
+      </div>
+    </section>
+
+    <section id="options" class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow">Customization</p>
+          <h2>All options</h2>
+          <p class="sub">These are props in React, props or <code>:options</code> in Vue, attributes or <code>.options</code> on <code>&lt;ixs-search&gt;</code>, and the second argument of <code>createSearch()</code>.</p>
+        </div>
+        <div class="table-wrap"><table class="opts" id="optsTable"><thead><tr><th>Option</th><th>Default</th><th>What it does</th></tr></thead><tbody></tbody></table></div>
+
+        <div class="sec-head sm">
+          <h3>Methods</h3>
+          <p class="sub">From <code>createSearch()</code>, a React <code>ref</code>, Vue’s exposed <code>api</code> or <code>element.api</code>.</p>
+        </div>
+        <div class="table-wrap"><table class="opts" id="apiTable"><thead><tr><th>Method</th><th>What it does</th></tr></thead><tbody></tbody></table></div>
+
+        <div class="sec-head sm">
+          <h3>Events</h3>
+          <p class="sub"><code>onSelect</code>-style callbacks, <code>search.on('select', fn)</code>, Vue <code>@select</code> or DOM <code>ixs:select</code>.</p>
+        </div>
+        <div class="table-wrap"><table class="opts" id="eventsTable"><thead><tr><th>Event</th><th>Detail</th></tr></thead><tbody></tbody></table></div>
+
+        <div class="sec-head sm">
+          <h3>Keyboard</h3>
+          <p class="sub">In the box, plus one global shortcut (<code>hotkey</code>).</p>
+        </div>
+        <div class="keys" id="keysGrid"></div>
+
+        <div class="sec-head sm">
+          <h3>Theming</h3>
+          <p class="sub">Every color, the radius and the fonts are CSS variables on <code>.ixs</code>. Override them in your own stylesheet.</p>
+        </div>
+        <div class="code-card">
+          <div class="code-h"><span>CSS</span></div>
+          <pre><code id="cssCode"></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="support" class="section alt">
+      <div class="wrap center narrow">
+        <p class="eyebrow">Support Iconix</p>
+        <h2>Free, MIT, and staying that way</h2>
+        <p class="sub">Iconix Search is free and MIT licensed. If it saves you a few days of work, a coffee keeps it going.</p>
+        <div class="cta">
+          <a class="btn btn-coffee" href="https://buymeacoffee.com/bartek1983d" target="_blank" rel="noopener"><span data-i="coffee"></span>Buy me a coffee</a>
+          <a class="btn" href="https://bartek-figat.github.io/iconix-site/" target="_blank" rel="noopener"><span data-i="sparkles"></span>Need icons? @iconix/icons</a>
+          <a class="btn" href="https://bartek-figat.github.io/iconix-calendar/" target="_blank" rel="noopener"><span data-i="layers"></span>@iconix/calendar</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <span>iconix search v0.2.0 · 6 layouts · MIT License</span>
+      <span class="foot-links"><a href="https://bartek-figat.github.io/iconix-site/">@iconix/icons</a><a href="https://bartek-figat.github.io/iconix-calendar/">@iconix/calendar</a><a href="https://buymeacoffee.com/bartek1983d">Buy me a coffee</a><a href="https://www.npmjs.com/package/@iconix/search">npmjs.com/package/@iconix/search</a></span>
+    </div>
+  </footer>
+
+  <script type="module" src="./site.js"></script>
+</body>
+</html>
