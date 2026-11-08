@@ -2,6 +2,10 @@
 
 A search box with suggestions and a results panel for React, Vue and the web, from the makers of [@iconix/icons](https://bartek-figat.github.io/iconix-site/) and [@iconix/calendar](https://www.npmjs.com/package/@iconix/calendar).
 
+**[Live demo and docs →](https://bartek-figat.github.io/iconix-search/)**
+
+[![Suggestions while you type: completions on the left, top results with prices on the right](https://raw.githubusercontent.com/Bartek-Figat/iconix-search/main/docs/screenshots/suggestions.png)](https://bartek-figat.github.io/iconix-search/site/#demo)
+
 - **Suggestions while you type:** word completions, typo corrections, whole-title completions, top results, recent and popular searches. Grey inline completion, accepted with <kbd>Tab</kbd> or <kbd>→</kbd>.
 - **Forgiving search:** typos (`hedphones`), prefixes (`blue`), word forms (`running` finds `run`, `butów` finds `buty`), accents (`zolw` finds `Żółw`), synonyms, field weights, `"exact phrase"`, `-exclude` and `field:value`.
 - **Ranks like a search engine:** an inverted index with BM25-style weighting: rare words and short fields count more, typo matches rank after exact ones.
@@ -14,6 +18,28 @@ A search box with suggestions and a results panel for React, Vue and the web, fr
 ```bash
 npm i @iconix/search
 ```
+
+## Screenshots
+
+**Results as cards, with category and brand chips and a price range**
+
+[![Cards layout with facets and a price range filter](https://raw.githubusercontent.com/Bartek-Figat/iconix-search/main/docs/screenshots/cards.png)](https://bartek-figat.github.io/iconix-search/site/#demo)
+
+**Six layouts: list, cards, grid, compact, media and table**
+
+[![The six result layouts](https://raw.githubusercontent.com/Bartek-Figat/iconix-search/main/docs/screenshots/layouts.png)](https://bartek-figat.github.io/iconix-search/site/#layouts)
+
+<table>
+  <tr>
+    <td width="62%"><b>Table layout, dark theme</b><br><img src="https://raw.githubusercontent.com/Bartek-Figat/iconix-search/main/docs/screenshots/table-dark.png" alt="Table layout in the dark theme, sorted by price"></td>
+    <td width="38%"><b>Full-screen search on phones</b><br><img src="https://raw.githubusercontent.com/Bartek-Figat/iconix-search/main/docs/screenshots/phone.png" alt="Full-screen search on a phone"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>⌘K command palette</b><br><img src="https://raw.githubusercontent.com/Bartek-Figat/iconix-search/main/docs/screenshots/palette.png" alt="Command palette with suggestions and results"></td>
+  </tr>
+</table>
+
+Screenshots are generated from the demo site with `npm run screenshots`.
 
 ## React
 

@@ -7,7 +7,8 @@
   <meta name="description" content="A search box with typo-tolerant suggestions and results in six layouts: list, cards, grid, compact, media and table. Facets, sorting, recent searches, a ⌘K palette and a CLI. Icons by @iconix/icons, MIT.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%2318181b'/%3E%3Cg fill='none' stroke='%23fafafa' stroke-width='2.2' stroke-linecap='round' transform='translate(5 5)'%3E%3Ccircle cx='10' cy='10' r='6.5'/%3E%3Cpath d='M15 15l5 5'/%3E%3C/g%3E%3C/svg%3E">
   <script>
-    try { const t = localStorage.getItem('ixs-site-theme'); if (t) document.documentElement.dataset.theme = t; else if (matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.dataset.theme = 'dark'; } catch (e) {}
+    // light first; dark only after the visitor picks it with the toggle (remembered)
+    try { document.documentElement.dataset.theme = localStorage.getItem('ixs-site-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { document.documentElement.dataset.theme = 'light'; }
   </script>
   <!-- The search UI draws all of its icons with @iconix/icons -->
   <script type="importmap">{ "imports": { "@iconix/icons/lite": "https://cdn.jsdelivr.net/npm/@iconix/icons@1.1.1/dist/lite.js" } }</script>

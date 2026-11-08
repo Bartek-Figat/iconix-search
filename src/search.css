@@ -279,7 +279,8 @@
 .ixs-scrim { position: absolute; inset: 0; background: #09090b80; backdrop-filter: blur(3px); animation: ixs-fade .15s; }
 @keyframes ixs-fade { from { opacity: 0; } }
 .ixs-sheet { position: relative; width: min(640px, 100%); animation: ixs-in .15s ease-out; }
-.ixs-modal .ixs-field { height: 56px; border-radius: var(--ixs-radius) var(--ixs-radius) 0 0; box-shadow: none !important; border-color: var(--ixs-border) !important; border-bottom: 1px solid var(--ixs-border); }
+.ixs-modal { --ixs-h: 56px; }
+.ixs-modal .ixs-field { border-radius: var(--ixs-radius) var(--ixs-radius) 0 0; box-shadow: none !important; border-color: var(--ixs-border) !important; border-bottom: 1px solid var(--ixs-border); }
 .ixs-modal .ixs-pop { position: static; border-top: 0; border-radius: 0 0 var(--ixs-radius) var(--ixs-radius); animation: none; box-shadow: none; }
 .ixs-modal .ixs-pop[hidden] { display: block; min-height: 8px; padding: 0; }
 .ixs-modal .ixs-box { box-shadow: var(--ixs-shadow); border-radius: var(--ixs-radius); }

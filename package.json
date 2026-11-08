@@ -61,7 +61,8 @@
     "test:e2e": "node --test --test-concurrency=1 e2e/site.e2e.mjs",
     "test:all": "npm test && npm run test:e2e",
     "bench": "node bench/bench.mjs",
-    "size": "node bench/size.mjs"
+    "size": "node bench/size.mjs",
+    "screenshots": "node scripts/screenshots.mjs"
   },
   "keywords": [
     "search",
