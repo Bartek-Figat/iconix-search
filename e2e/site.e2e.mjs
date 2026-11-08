@@ -320,7 +320,14 @@ describe('what a screen reader gets (accessibility tree)', () => {
     for (const c of boxes) assert.ok(c.name?.value, 'every combobox has a name');
     const focused = boxes.find((n) => prop(n, 'focused'));
     assert.ok(focused, 'focus is on a combobox');
-    assert.equal(prop(focused, 'expanded'), false);
+    // focus may open popular searches (browsers differ in whether a scripted focus fires); expanded must match what is shown
+    const popVisible = await b.eval("return !document.querySelector('#demoSearch .ixs-pop').hidden;");
+    assert.equal(prop(focused, 'expanded'), popVisible, 'expanded matches the visible list');
+    if (popVisible) {
+      await b.key('Escape');
+      const closed = (await axTree()).find((n) => !n.ignored && n.role?.value === 'combobox' && prop(n, 'focused'));
+      assert.equal(prop(closed, 'expanded'), false, 'collapsed after Escape');
+    }
     await b.type('wire');
     nodes = await axTree();
     const open = nodes.find((n) => !n.ignored && n.role?.value === 'combobox' && prop(n, 'focused'));
