@@ -1,4 +1,4 @@
-# Runs the tests on every push and pull request; on main it publishes the demo site to GitHub Pages.
+# Unit tests and UI/UX tests run on every push and pull request; on main the demo site is published to GitHub Pages.
 # One-time setup: repository Settings -> Pages -> Source: "GitHub Actions".
 name: Test and deploy site
 
@@ -14,7 +14,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -28,10 +28,37 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
       - name: UI/UX tests (headless Chrome)
-        run: npm run test:e2e
         env:
           BROWSER: /usr/bin/google-chrome
+          E2E_SHOTS: e2e/screenshots
+        run: |
+          set +e
+          npx node --test --test-concurrency=1 --test-reporter=tap e2e/site.e2e.mjs > e2e.tap
+          code=$?
+          tail -n 12 e2e.tap
+          if [ $code -ne 0 ]; then
+            # failures as annotations (readable on the run page and through the API)
+            node -e "const t=require('fs').readFileSync('e2e.tap','utf8').split('\n');let out=[];t.forEach((l,i)=>{if(/^\s*not ok/.test(l)&&!/subtests? failed/.test(t.slice(i,i+12).join(' ')))out.push(t.slice(i,i+16).join('\n'))});for(const o of out.slice(0,9))console.log('::error title=UI/UX test failed::'+o.replace(/%/g,'%25').replace(/\r/g,'').replace(/\n/g,'%0A'))"
+          fi
+          exit $code
+      - name: Keep the screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-screenshots
+          path: e2e/screenshots
+          if-no-files-found: ignore
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
