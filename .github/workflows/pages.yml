@@ -44,7 +44,7 @@ jobs:
           E2E_SHOTS: e2e/screenshots
         run: |
           set +e
-          npx node --test --test-concurrency=1 --test-reporter=tap e2e/site.e2e.mjs > e2e.tap
+          node --test --test-concurrency=1 --test-reporter=tap e2e/site.e2e.mjs > e2e.tap
           code=$?
           tail -n 12 e2e.tap
           if [ $code -ne 0 ]; then
